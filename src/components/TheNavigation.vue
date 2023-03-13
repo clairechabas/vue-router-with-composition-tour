@@ -15,10 +15,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import data from '@/data.json'
-
-const destinations = computed(() => data.destinations)
+const { destinations } = defineProps(['destinations'])
 </script>
 
 <style scoped></style>

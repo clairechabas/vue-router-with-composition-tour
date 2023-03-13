@@ -2,7 +2,7 @@
   <div class="home">
     <h1>All Destinations</h1>
 
-    <div class="destinations">
+    <div v-if="destinations" class="destinations">
       <router-link
         v-for="destination in destinations"
         :to="{
@@ -19,10 +19,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import data from '@/data.json'
-
-const destinations = ref(data.destinations)
+const { destinations } = defineProps(['destinations'])
 </script>
 
 <style lang="scss" scoped></style>

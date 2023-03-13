@@ -1,51 +1,21 @@
 <template>
-  <section v-if="destination.data" class="destination">
-    <h1>{{ destination.data.name }}</h1>
+  <section v-if="destination" class="destination">
+    <h1>{{ destination.name }}</h1>
     <div class="destination-details">
-      <img
-        :src="`/images/${destination.data.image}`"
-        :alt="destination.data.name"
-      />
-      <p>{{ destination.data.description }}</p>
+      <img :src="`/images/${destination.image}`" :alt="destination.name" />
+      <p>{{ destination.description }}</p>
     </div>
   </section>
 </template>
 
 <script setup>
-import { onMounted, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
-
 const route = useRoute()
 
-const destination = reactive({
-  data: null,
-  error: null,
-  loading: false,
-})
+const { destinations } = defineProps(['destinations'])
 
-const fetchData = async () => {
-  destination.loading = true
-
-  try {
-    const response = await fetch(
-      proxyUrl + `https://travel-dummy-api.netlify.app/${route.params.slug}`
-    )
-    const data = await response.json()
-    destination.data = data
-  } catch (error) {
-    destination.error = error
-  } finally {
-    destination.loading = false
-  }
-}
-onMounted(() => {
-  fetchData()
-})
-watch(
-  () => route.params.id,
-  async () => {
-    await fetchData()
-  }
+const destination = destinations.find(
+  (destination) => destination.slug === route.params.slug
 )
 </script>
 
